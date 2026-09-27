@@ -1776,9 +1776,6 @@ a:hover {
 }
 .topLinkLists,
 .newsLists,
-.onairLists,
-.musicLists,
-.movieLists,
 .staffcastLists {
   max-width: 760px;
 }
@@ -1811,36 +1808,7 @@ a:hover {
 .newsList_txt {
   flex: 1 1 auto;
 }
-.onairList {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 16px 8px;
-  border-bottom: 1px solid #e5e5e5;
-}
-.onairList_area {
-  flex: 0 0 160px;
-  font-weight: 700;
-  font-size: 16px;
-  color: #c32551;
-}
-.staffcastGrid {
-  display: flex;
-  gap: 60px;
-  flex-wrap: wrap;
-  max-width: 900px;
-}
-.staffcastCol {
-  flex: 1 1 320px;
-}
-.staffcastCol_ttl {
-  font-size: 20px;
-  font-weight: 700;
-  color: #c32551;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #c32551;
-}
+/* dipakai ulang oleh BOTS LIST */
 .staffcastList {
   display: flex;
   justify-content: space-between;
@@ -1854,48 +1822,8 @@ a:hover {
 .staffcastList .name {
   font-weight: 700;
 }
-.musicList {
-  padding: 18px 8px;
-  border-bottom: 1px solid #e5e5e5;
-}
-.musicList_type {
-  display: inline-block;
-  padding: 2px 12px;
-  margin-bottom: 8px;
-  background: #c32551;
-  color: #fff;
-  font-size: 12px;
-  border-radius: 999px;
-}
-.musicList_ttl {
-  font-size: 17px;
-  font-weight: 700;
-}
-.movieLists {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-.movieList {
-  width: 320px;
-  max-width: 100%;
-}
-.movieList_ph {
-  aspect-ratio: 16/9;
-  background: #c32551;
-}
 @media screen and (max-width: 768px) {
   .genericTxt {
     font-size: 1.4rem;
-  }
-  .staffcastGrid {
-    gap: 30px;
-  }
-  .onairList {
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-  .onairList_area {
-    flex-basis: 100%;
   }
 }

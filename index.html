@@ -52,48 +52,48 @@
               <div class="line_top_right"></div>
               <div class="circle_icon"><div></div></div>
             </div>
-            <h1 class="header_h1 top_non"><a href="#">TANGO X SHOUJO</a></h1>
+            <h1 class="header_h1 top_non"><a href="#top">TANGO X SHOUJO</a></h1>
             <div class="navTitleWrap_sp sp">
               <div class="navTitle sp"><span>NAVIGATION</span></div>
             </div>
             <nav class="headerNav">
               <ul class="headerNavLists">
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link"><span>TOP</span></a>
+                  <a href="#top" class="headerNav_link" data-route="top"><span>TOP</span></a>
                 </li>
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link"><span>NEWS</span></a>
+                  <a href="#news" class="headerNav_link" data-route="news"><span>NEWS</span></a>
                 </li>
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link"><span>ON AIR</span></a>
+                  <a href="#onair" class="headerNav_link" data-route="onair"><span>ON AIR</span></a>
                 </li>
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link"
+                  <a href="#introduction" class="headerNav_link" data-route="introduction"
                     ><span>INTRODUCTION</span></a
                   >
                 </li>
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link"><span>STORY</span></a>
+                  <a href="#story" class="headerNav_link" data-route="story"><span>STORY</span></a>
                 </li>
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link is-active"
+                  <a href="#character" class="headerNav_link" data-route="character"
                     ><span>CHARACTER</span></a
                   >
                 </li>
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link"><span>STAFF/CAST</span></a>
+                  <a href="#staffcast" class="headerNav_link" data-route="staffcast"><span>STAFF/CAST</span></a>
                 </li>
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link"><span>MUSIC</span></a>
+                  <a href="#music" class="headerNav_link" data-route="music"><span>MUSIC</span></a>
                 </li>
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link"><span>MOVIE</span></a>
+                  <a href="#movie" class="headerNav_link" data-route="movie"><span>MOVIE</span></a>
                 </li>
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link"><span>Blu-ray</span></a>
+                  <a href="#bluray" class="headerNav_link" data-route="bluray"><span>Blu-ray</span></a>
                 </li>
                 <li class="headerNavList">
-                  <a href="#" class="headerNav_link"><span>SPECIAL</span></a>
+                  <a href="#special" class="headerNav_link" data-route="special"><span>SPECIAL</span></a>
                 </li>
                 <li class="headerNavList">
                   <a href="#" class="headerNav_link icon_blank" target="_blank"
@@ -147,7 +147,7 @@
           </div>
         </div>
       </div>
-      <div class="sp_ttl_logo sp"><a href="#">TANGO X SHOUJO</a></div>
+      <div class="sp_ttl_logo sp"><a href="#top">TANGO X SHOUJO</a></div>
       <div class="subShareWrap">
         <div class="shareListsInWrap">
           <p class="shareLists_ttl rb">SHARE</p>
@@ -171,16 +171,9 @@
         </div>
       </div>
 
-      <section id="character" class="contentWrap subTop">
-        <h2 class="cont_h2">
-          <span class="cont_h2_eng">CHARACTER</span>
-          <span class="cont_h2_ja"><span>キャラクター</span></span>
-        </h2>
-        <div class="contIn">
-          <div id="charaWrap">
-            <ul class="charaLists" id="js-charaLists"></ul>
-          </div>
-        </div>
+      <!-- Konten halaman diganti secara dinamis oleh router.js (lihat assets/js/pages.js) -->
+      <section id="js-pageSection" class="contentWrap subTop">
+        <div id="js-pageContent"></div>
       </section>
 
       <!-- Footer Common -->
@@ -258,6 +251,8 @@
     </button>
 
     <script src="assets/js/data.js"></script>
+    <script src="assets/js/pages.js"></script>
     <script src="assets/js/app.js"></script>
+    <script src="assets/js/router.js"></script>
   </body>
 </html>

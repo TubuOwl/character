@@ -1766,3 +1766,136 @@ a:hover {
 @media (max-width: 768px){
   .bgmBtn{ right: 12px; bottom: 12px; padding: 8px 12px; font-size: 11px; }
 }
+
+/* ===== Konten generik untuk halaman selain CHARACTER (di-render router.js) ===== */
+.genericTxt {
+  max-width: 760px;
+  font-size: 15px;
+  line-height: 2;
+  color: #333;
+}
+.topLinkLists,
+.newsLists,
+.onairLists,
+.musicLists,
+.movieLists,
+.staffcastLists {
+  max-width: 760px;
+}
+.topLinkList {
+  border-bottom: 1px solid #e5e5e5;
+}
+.topLinkList a {
+  display: block;
+  padding: 18px 8px;
+  font-weight: 700;
+  color: #c32551;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+.topLinkList a:hover {
+  opacity: 0.65;
+}
+.newsList {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 16px 8px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.newsList_date {
+  flex: 0 0 auto;
+  font-weight: 700;
+  color: #c32551;
+}
+.newsList_txt {
+  flex: 1 1 auto;
+}
+.onairList {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 8px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.onairList_area {
+  flex: 0 0 160px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #c32551;
+}
+.staffcastGrid {
+  display: flex;
+  gap: 60px;
+  flex-wrap: wrap;
+  max-width: 900px;
+}
+.staffcastCol {
+  flex: 1 1 320px;
+}
+.staffcastCol_ttl {
+  font-size: 20px;
+  font-weight: 700;
+  color: #c32551;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #c32551;
+}
+.staffcastList {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 4px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.staffcastList .role {
+  color: #666;
+}
+.staffcastList .name {
+  font-weight: 700;
+}
+.musicList {
+  padding: 18px 8px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.musicList_type {
+  display: inline-block;
+  padding: 2px 12px;
+  margin-bottom: 8px;
+  background: #c32551;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 999px;
+}
+.musicList_ttl {
+  font-size: 17px;
+  font-weight: 700;
+}
+.movieLists {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.movieList {
+  width: 320px;
+  max-width: 100%;
+}
+.movieList_ph {
+  aspect-ratio: 16/9;
+  background: #c32551;
+}
+@media screen and (max-width: 768px) {
+  .genericTxt {
+    font-size: 1.4rem;
+  }
+  .staffcastGrid {
+    gap: 30px;
+  }
+  .onairList {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .onairList_area {
+    flex-basis: 100%;
+  }
+}

@@ -2,11 +2,13 @@ function pad(i){return ('0'+(i+1)).slice(-2)}
 function im(u,alt,cls,label){return u?'<img src="'+u+'" alt="'+alt+'" class="'+(cls||'')+'" referrerpolicy="no-referrer" loading="lazy">':'<div class="ph">'+(label||'')+'</div>'}
 function cv(c){return c.cover}
 
-/* daftar (cover depan) */
-$('#js-charaLists').html($.map(CHARACTERS,function(c,i){
- return '<li class="charaList"><a href="#" data-chara="'+pad(i)+'" class="charalink"><div class="chara_thumb">'
-  +im(cv(c),c.ja,'chara_thumbIMG','COVER '+(i+1))+'</div><p class="chara_name">'+c.ja+'</p></a></li>';
-}).join(''));
+/* daftar (cover depan) - dipanggil ulang tiap kali halaman CHARACTER dirender oleh router.js */
+function renderCharaList(){
+ $('#js-charaLists').html($.map(CHARACTERS,function(c,i){
+  return '<li class="charaList"><a href="#" data-chara="'+pad(i)+'" class="charalink"><div class="chara_thumb">'
+   +im(cv(c),c.ja,'chara_thumbIMG','COVER '+(i+1))+'</div><p class="chara_name">'+c.ja+'</p></a></li>';
+ }).join(''));
+}
 
 /* template detail */
 function tpl(no){

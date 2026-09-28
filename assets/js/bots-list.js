@@ -1,4 +1,33 @@
-/* ===== BOTS LIST: fetch dari /api/bots (Postgres), render ke #js-botsList ===== */
+/* ===== BOTS LIST: fetch dari /api/bots (Postgres), render ke #js-botsList =====
+   File ini berdiri sendiri: tampilan kartu (avatar 45x45, dll) disuntikkan lewat
+   <style> di bawah, jadi tidak tergantung isi styles.css. */
+
+(function injectBotCss() {
+  if (document.getElementById('botsListCss')) return;
+  var css = ''
+    + '#js-botsList,#js-botBoxes{display:flex!important;flex-wrap:wrap;gap:32px;width:100%;grid-template-columns:none}'
+    + '.bioBox{width:280px;min-height:280px;background:#fff;border:2px solid #000;box-shadow:6px 6px 0 #f0005a;padding:16px;display:flex;flex-direction:column;justify-content:space-between}'
+    + '.bioBox .bioBox_header{display:flex;align-items:center;gap:12px;margin:0}'
+    + '.bioBox .bioBox_avatar{width:45px!important;height:45px!important;min-width:45px;max-width:45px;min-height:45px;max-height:45px;flex:0 0 45px;background:#000;overflow:hidden;display:flex;justify-content:center;align-items:center}'
+    + '.bioBox .bioBox_avatar img{width:45px!important;height:45px!important;max-width:none;object-fit:cover;display:block}'
+    + '.bioBox .bioBox_avatar_ph{color:#fff;font-weight:700;font-size:18px;font-family:"Roboto Condensed",sans-serif}'
+    + '.bioBox .bioBox_name{font-size:16px;font-weight:700;color:#000;line-height:1.2;margin:0;word-break:break-all}'
+    + '.bioBox .bioBox_info{display:flex;flex-direction:column;gap:8px;border-top:2px solid #000;padding-top:10px;margin:10px 0 0;flex-grow:1}'
+    + '.bioBox .bioBox_item{font-size:11px;color:#333;line-height:1.4;margin:0}'
+    + '.bioBox .bioBox_label{font-weight:700;color:#000;display:block;margin-bottom:1px;text-transform:uppercase;font-size:10px;letter-spacing:.5px}'
+    + '.bioBox .bioBox_badge{background:#f0005a;color:#fff;padding:1px 5px;font-size:10px;font-weight:600;margin:0 2px 2px 0;display:inline-block;border-radius:0}'
+    + '.bioBox .bioBox_badge.is-active{background:#1aad55}'
+    + '.bioBox .bioBox_prefix{font-size:10px;color:#666;margin-left:4px}'
+    + '.bioBox .bioBox_link{display:block;text-align:center;margin-top:12px;padding:8px 0;background:#000;color:#fff;font-size:11px;font-weight:700;letter-spacing:.1em;text-decoration:none;transition:.2s}'
+    + '.bioBox .bioBox_link:hover{background:#f0005a}'
+    + '.bioBox .bioBox_ghLink{color:#000}.bioBox .bioBox_ghLink:hover{color:#f0005a}'
+    + '@media screen and (max-width:768px){#js-botsList,#js-botBoxes{gap:6.4vw;justify-content:center}}';
+  var s = document.createElement('style');
+  s.id = 'botsListCss';
+  s.textContent = css;
+  document.head.appendChild(s);
+})();
+
 function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -38,7 +67,7 @@ function bioBoxHTML(o) {
   var active = !!(o.status && o.status.active);
   var tags = o.tag || [];
 
-  var avatarHTML = '<img src="' + esc(getChatangoAvatar(name)) + '" alt="' + esc(name) + '" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+  var avatarHTML = '<img src="' + esc(getChatangoAvatar(name)) + '" width="45" height="45" alt="' + esc(name) + '" referrerpolicy="no-referrer" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
     + '<span class="bioBox_avatar_ph" style="display:none">' + esc(name ? name.charAt(0).toUpperCase() : '?') + '</span>';
 
   var badges = $.map(tags, function (t) {

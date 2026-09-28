@@ -18,12 +18,10 @@ var PAGES = {
     title: 'NEWS | TVアニメ『タイトル』公式サイト',
     eng: 'NEWS',
     ja: 'ニュース',
-    html:
-      '<ul class="newsLists">' +
-      '<li class="newsList"><span class="newsList_date rb">20XX.XX.XX</span><p class="newsList_txt">公式サイトオープンしました。</p></li>' +
-      '<li class="newsList"><span class="newsList_date rb">20XX.XX.XX</span><p class="newsList_txt">キャラクター情報を公開しました。</p></li>' +
-      '<li class="newsList"><span class="newsList_date rb">20XX.XX.XX</span><p class="newsList_txt">BOTS LISTを公開しました。</p></li>' +
-      '</ul>'
+    html: '<div id="js-newsList"></div>',
+    afterRender: function () {
+      renderNewsList();
+    }
   },
   introduction: {
     title: 'INTRODUCTION | TVアニメ『タイトル』公式サイト',
@@ -53,12 +51,10 @@ var PAGES = {
     title: 'BOTS LIST | TVアニメ『タイトル』公式サイト',
     eng: 'BOTS LIST',
     ja: 'ボットリスト',
-    html:
-      '<ul class="staffcastLists botsLists">' +
-      '<li class="staffcastList"><span class="role">Bot 01</span><span class="name">Nama Bot</span></li>' +
-      '<li class="staffcastList"><span class="role">Bot 02</span><span class="name">Nama Bot</span></li>' +
-      '<li class="staffcastList"><span class="role">Bot 03</span><span class="name">Nama Bot</span></li>' +
-      '</ul>'
+    html: '<div id="js-botsList" class="botBoxWrap"></div>',
+    afterRender: function () {
+      renderBotsList();
+    }
   },
   mytango: {
     title: 'MY TANGO | TVアニメ『タイトル』公式サイト',

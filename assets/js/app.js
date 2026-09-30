@@ -2,7 +2,7 @@ function pad(i){return ('0'+(i+1)).slice(-2)}
 function im(u,alt,cls,label){return u?'<img src="'+u+'" alt="'+alt+'" class="'+(cls||'')+'" referrerpolicy="no-referrer" loading="lazy">':'<div class="ph">'+(label||'')+'</div>'}
 function cv(c){return c.cover}
 
-/* daftar (cover depan) - dipanggil ulang tiap kali halaman CHARACTER dirender oleh router.js */
+
 function renderCharaList(){
  $('#js-charaLists').html($.map(CHARACTERS,function(c,i){
   return '<li class="charaList"><a href="#" data-chara="'+pad(i)+'" class="charalink"><div class="chara_thumb">'
@@ -40,7 +40,7 @@ function tpl(no){
 
 /* ===== BGM (lagu latar global, terpisah dari voice karakter) ===== */
 var BGM = (function(){
-	var SRC = 'audio/renai.mp3';        // <-- ganti dengan nama file lagu kamu
+	var SRC = 'https://character-cyan.vercel.app/audio/renai.mp3';        // <-- ganti dengan nama file lagu kamu (absolute, biar tetap kebaca walau di-embed di domain lain)
 	var VOL_NORMAL = 0.4;       // volume normal BGM (0 - 1)
 	var VOL_DUCK   = 0.08;      // volume BGM saat voice karakter sedang bicara
 	var K_PLAY = 'bgm_playing', K_TIME = 'bgm_time', K_VOL = 'bgm_vol';

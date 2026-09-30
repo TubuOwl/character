@@ -17,6 +17,23 @@ function toArray(v) {
   return [];
 }
 
+
+// JSONP: kalau ada ?callback=namaFungsi, balas sebagai <script> (lolos CSP/CORS
+// di halaman seperti Chatango). Error juga dibungkus supaya bisa dibaca client.
+function getCallback(q) {
+  return typeof q.callback === 'string' && /^[A-Za-z_$][\w$]{0,63}$/.test(q.callback) ? q.callback : null;
+}
+
+function send(res, q, status, payload) {
+  const cb = getCallback(q || {});
+  if (cb) {
+    res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    return res.status(200).send('/**/' + cb + '(' + JSON.stringify(payload) + ');');
+  }
+  return res.status(status).json(payload);
+}
+
 module.exports = async (req, res) => {
   // Izinkan diakses dari domain manapun (misal HTML-nya di-embed di situs lain).
   // Ditaruh paling atas supaya tetap terkirim walaupun terjadi error di bawah.
@@ -26,7 +43,7 @@ module.exports = async (req, res) => {
   try {
     sql = getSql();
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return send(res, req.query, 500, { error: err.message });
   }
 
   try {
@@ -92,12 +109,12 @@ module.exports = async (req, res) => {
         usage: r.usage_prefix || []
       }));
       res.setHeader('Cache-Control', 'no-store');
-      return res.status(200).json(bots);
+      return send(res, q, 200, bots);
     }
 
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: 'Method tidak didukung.' });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return send(res, req.query, 500, { error: err.message });
   }
 };

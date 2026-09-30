@@ -51,7 +51,7 @@ if (typeof getLanguageLogo !== 'function') {
       ruby: 'lang-ruby', javascript: 'lang-javascript', cpp: 'lang-cpp',
       typescript: 'lang-typescript', python: 'lang-python', kotlin: 'lang-kotlyn',
       csharp: 'lang-csharp', 'c#': 'lang-csharp', java: 'lang-java',
-      php: 'lang-php', go: 'lang-go', rust: 'lang-rust'
+      php: 'lang-php', golang: 'lang-go-old', rust: 'lang-rust'
     };
     return logos[lang]
       ? '<i class="programming ' + logos[lang] + '"></i> ' + esc(language)

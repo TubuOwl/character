@@ -1870,45 +1870,71 @@ a:hover {
 
 /* ===== NEWS card (data dari Postgres via /api/news) ===== */
 .newsCard {
+  display: block;
+  width: 100%;
   background: #fff;
   border: 2px solid #000;
   box-shadow: 6px 6px 0 #f0005a;
-  padding: 16px 20px;
-  margin-bottom: 20px;
+  padding: 16px 20px 18px;
+  margin: 0 0 24px;
+  text-align: left;
+  box-sizing: border-box;
 }
-.newsCard_head {
+/* baris tanggal + tag, garis pemisah di BAWAH baris ini (bukan border-top di judul) */
+.newsCard .newsCard_head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 0 0 10px;
+  border: 0;
+  border-bottom: 2px solid #000;
   font-size: 12px;
+  line-height: 1.4;
 }
-.newsCard_date {
+.newsCard .newsCard_date {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
   font-weight: 700;
   font-style: italic;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
 }
-.newsCard_tag {
+.newsCard .newsCard_tag {
+  display: inline-block;
+  margin: 0;
   background: #f0005a;
   color: #fff;
   font-size: 10px;
   font-weight: 700;
-  padding: 1px 8px;
+  line-height: 1.6;
+  padding: 1px 10px;
   border-radius: 999px;
 }
-.newsCard_title {
+.newsCard .newsCard_title {
+  display: block;
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 0;
+  border: 0 !important;
   font-size: 18px;
   font-weight: 700;
-  line-height: 1.4;
-  margin: 8px 0;
-  padding-top: 8px;
-  border-top: 2px solid #000;
+  line-height: 1.45;
+  text-align: left;
 }
-.newsCard_body {
+.newsCard .newsCard_body {
+  display: block;
+  margin: 0;
   font-size: 13px;
   line-height: 1.8;
   white-space: pre-wrap;
   word-break: break-word;
+  text-align: left;
 }
-.newsCard_link {
+.newsCard .newsCard_link {
   display: inline-block;
   margin-top: 12px;
   padding: 6px 16px;
@@ -1920,22 +1946,23 @@ a:hover {
   text-decoration: none;
   transition: 0.2s;
 }
-.newsCard_link:hover {
+.newsCard .newsCard_link:hover {
   background: #f0005a;
+}
+@media screen and (max-width: 768px) {
+  .newsCard .newsCard_title {
+    font-size: 16px;
+  }
 }
 @media screen and (max-width: 768px) {
   .botBoxWrap {
     grid-template-columns: 1fr;
-  }
-  .newsCard_title {
-    font-size: 16px;
   }
 }
 
 
 /* ===== Fix: rata kiri saat di-embed di profil Chatango (cegah pewarisan text-align: center dari host) ===== */
 #fullWrap, .modalBox { text-align: left; }
-#js-botsList, #js-botsList .genericTxt,
-.bioBox, .bioBox div, .bioBox span, .bioBox h4,
-.newsCard, .newsCard * { text-align: left !important; }
+#js-newsList, #js-botsList, #js-botsList .genericTxt,
+.bioBox, .bioBox div, .bioBox span, .bioBox h4 { text-align: left !important; }
 .bioBox .bioBox_link { text-align: center !important; }

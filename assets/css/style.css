@@ -1931,3 +1931,11 @@ a:hover {
     font-size: 16px;
   }
 }
+
+
+/* ===== Fix: rata kiri saat di-embed di profil Chatango (cegah pewarisan text-align: center dari host) ===== */
+#fullWrap, .modalBox { text-align: left; }
+#js-botsList, #js-botsList .genericTxt,
+.bioBox, .bioBox div, .bioBox span, .bioBox h4,
+.newsCard, .newsCard * { text-align: left !important; }
+.bioBox .bioBox_link { text-align: center !important; }

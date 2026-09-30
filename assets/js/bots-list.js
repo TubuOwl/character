@@ -1,6 +1,10 @@
 /* ===== BOTS LIST: fetch dari /api/bots (Postgres), render ke #js-botsList =====
    File ini berdiri sendiri: tampilan kartu (avatar 45x45, dll) disuntikkan lewat
-   <style> di bawah, jadi tidak tergantung isi styles.css. */
+   <style> di bawah, jadi tidak tergantung isi styles.css.
+
+   API_BASE di-hardcode absolute supaya tetap jalan walau file HTML ini
+   di-embed/dijalankan dari domain lain (bukan dari character-cyan.vercel.app). */
+var API_BASE = 'https://character-cyan.vercel.app';
 
 (function injectBotCss() {
   if (document.getElementById('botsListCss')) return;
@@ -106,7 +110,7 @@ function renderBotsList() {
   if (!$wrap.length) return;
   $wrap.html('<p class="genericTxt">Memuat daftar bot...</p>');
 
-  $.getJSON('/api/bots?v=' + Date.now())
+  $.getJSON(API_BASE + '/api/bots?v=' + Date.now())
     .done(function (list) {
       if (!list || !list.length) {
         $wrap.html('<p class="genericTxt">Belum ada bot.</p>');
@@ -114,7 +118,13 @@ function renderBotsList() {
       }
       $wrap.html($.map(list, function (o) { return bioBoxHTML(o); }).join(''));
     })
-    .fail(function () {
-      $wrap.html('<p class="genericTxt">Gagal memuat daftar bot dari server. Pastikan /api/bots & koneksi database sudah aktif.</p>');
+    .fail(function (jqXHR) {
+      var detail = '';
+      try { detail = jqXHR.responseJSON && jqXHR.responseJSON.error; } catch (e) {}
+      $wrap.html(
+        '<p class="genericTxt">Gagal memuat daftar bot dari server (status ' + jqXHR.status + ').'
+        + (detail ? '<br><span style="color:#c32551">' + esc(detail) + '</span>' : '')
+        + '</p>'
+      );
     });
 }

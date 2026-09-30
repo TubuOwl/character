@@ -8,8 +8,17 @@ function renderNewsList() {
   if (!$wrap.length) return;
   $wrap.html('<p class="genericTxt">Memuat berita...</p>');
 
-  $.getJSON(API_BASE + '/api/news?v=' + Date.now())
+  $.ajax({
+    url: API_BASE + '/api/news?v=' + Date.now(),
+    dataType: 'jsonp',
+    jsonp: 'callback',
+    timeout: 15000
+  })
     .done(function (list) {
+      if (list && list.error) {
+        $wrap.html('<p class="genericTxt">Server error: <span style="color:#c32551">' + list.error + '</span></p>');
+        return;
+      }
       if (!list || !list.length) {
         $wrap.html('<p class="genericTxt">Belum ada berita.</p>');
         return;
@@ -27,13 +36,7 @@ function renderNewsList() {
       }).join('');
       $wrap.html(html);
     })
-    .fail(function (jqXHR) {
-      var detail = '';
-      try { detail = jqXHR.responseJSON && jqXHR.responseJSON.error; } catch (e) {}
-      $wrap.html(
-        '<p class="genericTxt">Gagal memuat berita dari server (status ' + jqXHR.status + ').'
-        + (detail ? '<br><span style="color:#c32551">' + detail + '</span>' : '')
-        + '</p>'
-      );
+    .fail(function (jqXHR, textStatus) {
+      $wrap.html('<p class="genericTxt">Gagal memuat berita (' + textStatus + ').</p>');
     });
 }

@@ -1,10 +1,14 @@
-/* ===== NEWS: fetch dari /api/news (Postgres), render ke #js-newsList ===== */
+/* ===== NEWS: fetch dari /api/news (Postgres), render ke #js-newsList =====
+   API_BASE di-hardcode absolute supaya tetap jalan walau file HTML ini
+   di-embed/dijalankan dari domain lain (bukan dari character-cyan.vercel.app). */
+var API_BASE = 'https://character-cyan.vercel.app';
+
 function renderNewsList() {
   var $wrap = $('#js-newsList');
   if (!$wrap.length) return;
   $wrap.html('<p class="genericTxt">Memuat berita...</p>');
 
-  $.getJSON('/api/news?v=' + Date.now())
+  $.getJSON(API_BASE + '/api/news?v=' + Date.now())
     .done(function (list) {
       if (!list || !list.length) {
         $wrap.html('<p class="genericTxt">Belum ada berita.</p>');
@@ -23,7 +27,13 @@ function renderNewsList() {
       }).join('');
       $wrap.html(html);
     })
-    .fail(function () {
-      $wrap.html('<p class="genericTxt">Gagal memuat berita dari server. Pastikan /api/news & koneksi database sudah aktif.</p>');
+    .fail(function (jqXHR) {
+      var detail = '';
+      try { detail = jqXHR.responseJSON && jqXHR.responseJSON.error; } catch (e) {}
+      $wrap.html(
+        '<p class="genericTxt">Gagal memuat berita dari server (status ' + jqXHR.status + ').'
+        + (detail ? '<br><span style="color:#c32551">' + detail + '</span>' : '')
+        + '</p>'
+      );
     });
 }

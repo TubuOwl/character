@@ -3,17 +3,25 @@
    di-embed/dijalankan dari domain lain (bukan dari character-cyan.vercel.app). */
 var API_BASE = 'https://character-cyan.vercel.app';
 
+function fetchNewsApi() {
+  var d = $.Deferred();
+  var url = API_BASE + '/api/news?v=' + Date.now();
+  $.ajax({ url: url, dataType: 'json', timeout: 15000 })
+    .done(function (data) { d.resolve(data); })
+    .fail(function () {
+      $.ajax({ url: url, dataType: 'jsonp', jsonp: 'callback', timeout: 15000 })
+        .done(function (data) { d.resolve(data); })
+        .fail(function (x, t) { d.reject(t); });
+    });
+  return d.promise();
+}
+
 function renderNewsList() {
   var $wrap = $('#js-newsList');
   if (!$wrap.length) return;
   $wrap.html('<p class="genericTxt">Memuat berita...</p>');
 
-  $.ajax({
-    url: API_BASE + '/api/news?v=' + Date.now(),
-    dataType: 'jsonp',
-    jsonp: 'callback',
-    timeout: 15000
-  })
+  fetchNewsApi()
     .done(function (list) {
       if (list && list.error) {
         $wrap.html('<p class="genericTxt">Server error: <span style="color:#c32551">' + list.error + '</span></p>');
@@ -36,7 +44,7 @@ function renderNewsList() {
       }).join('');
       $wrap.html(html);
     })
-    .fail(function (jqXHR, textStatus) {
-      $wrap.html('<p class="genericTxt">Gagal memuat berita (' + textStatus + ').</p>');
+    .fail(function (why) {
+      $wrap.html('<p class="genericTxt">Gagal memuat berita (' + why + ').</p>');
     });
 }

@@ -18,6 +18,10 @@ function toArray(v) {
 }
 
 module.exports = async (req, res) => {
+  // Izinkan diakses dari domain manapun (misal HTML-nya di-embed di situs lain).
+  // Ditaruh paling atas supaya tetap terkirim walaupun terjadi error di bawah.
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
   let sql;
   try {
     sql = getSql();
@@ -71,8 +75,6 @@ module.exports = async (req, res) => {
         await sql`DELETE FROM bots WHERE name = ${q.delete}`;
         return res.status(200).json({ ok: true });
       }
-
-      // ===== Default: list publik, dipakai assets/js/bots-list.js =====
       const rows = await sql`
         SELECT name, description, owner, language, home, help, library_name, library_public, active, uptime, tags, usage_prefix
         FROM bots ORDER BY name ASC

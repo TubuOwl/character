@@ -19,6 +19,10 @@ function todayLabel() {
 }
 
 module.exports = async (req, res) => {
+  // Izinkan diakses dari domain manapun (misal HTML-nya di-embed di situs lain).
+  // Ditaruh paling atas supaya tetap terkirim walaupun terjadi error di bawah.
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
   let sql;
   try {
     sql = getSql();

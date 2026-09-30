@@ -110,21 +110,29 @@ function renderBotsList() {
   if (!$wrap.length) return;
   $wrap.html('<p class="genericTxt">Memuat daftar bot...</p>');
 
-  $.getJSON(API_BASE + '/api/bots?v=' + Date.now())
+  // JSONP (lewat <script>) supaya tetap jalan di halaman yang memblokir XHR
+  // lintas-domain, misal profil Chatango (status 0 = diblokir browser).
+  $.ajax({
+    url: API_BASE + '/api/bots?v=' + Date.now(),
+    dataType: 'jsonp',
+    jsonp: 'callback',
+    timeout: 15000
+  })
     .done(function (list) {
+      if (list && list.error) {
+        $wrap.html('<p class="genericTxt">Server error: <span style="color:#c32551">' + esc(list.error) + '</span></p>');
+        return;
+      }
       if (!list || !list.length) {
         $wrap.html('<p class="genericTxt">Belum ada bot.</p>');
         return;
       }
       $wrap.html($.map(list, function (o) { return bioBoxHTML(o); }).join(''));
     })
-    .fail(function (jqXHR) {
-      var detail = '';
-      try { detail = jqXHR.responseJSON && jqXHR.responseJSON.error; } catch (e) {}
+    .fail(function (jqXHR, textStatus) {
       $wrap.html(
-        '<p class="genericTxt">Gagal memuat daftar bot dari server (status ' + jqXHR.status + ').'
-        + (detail ? '<br><span style="color:#c32551">' + esc(detail) + '</span>' : '')
-        + '</p>'
+        '<p class="genericTxt">Gagal memuat daftar bot (' + esc(textStatus) + ').<br>'
+        + '<span style="color:#c32551">Kemungkinan script ke ' + esc(API_BASE) + ' diblokir (CSP / ad blocker) atau API belum ter-deploy.</span></p>'
       );
     });
 }

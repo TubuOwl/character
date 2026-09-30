@@ -10,6 +10,8 @@ var API_BASE = 'https://character-cyan.vercel.app';
   if (document.getElementById('botsListCss')) return;
   var css = ''
     + '#js-botsList,#js-botBoxes{display:flex!important;flex-wrap:wrap;gap:32px;width:100%;grid-template-columns:none}'
+    + '#js-botsList,#js-botsList .genericTxt{text-align:left!important}'
+    + '.bioBox,.bioBox div,.bioBox span,.bioBox h4{text-align:left!important}'
     + '.bioBox{width:280px;min-height:280px;background:#fff;border:2px solid #000;box-shadow:6px 6px 0 #f0005a;padding:16px;display:flex;flex-direction:column;justify-content:space-between}'
     + '.bioBox .bioBox_header{display:flex;align-items:center;gap:12px;margin:0}'
     + '.bioBox .bioBox_avatar{width:45px!important;height:45px!important;min-width:45px;max-width:45px;min-height:45px;max-height:45px;flex:0 0 45px;background:#000;overflow:hidden;display:flex;justify-content:center;align-items:center}'
@@ -105,19 +107,26 @@ function bioBoxHTML(o) {
     + '</div>';
 }
 
+// Coba JSON biasa dulu (XHR); kalau diblokir/gagal (status 0), otomatis coba JSONP (<script>).
+function fetchBotsApi() {
+  var d = $.Deferred();
+  var url = API_BASE + '/api/bots?v=' + Date.now();
+  $.ajax({ url: url, dataType: 'json', timeout: 15000 })
+    .done(function (data) { d.resolve(data); })
+    .fail(function (x1, t1) {
+      $.ajax({ url: url, dataType: 'jsonp', jsonp: 'callback', timeout: 15000 })
+        .done(function (data) { d.resolve(data); })
+        .fail(function (x2, t2) { d.reject('XHR: ' + (x1.status || t1) + ' | JSONP: ' + t2); });
+    });
+  return d.promise();
+}
+
 function renderBotsList() {
   var $wrap = $('#js-botsList');
   if (!$wrap.length) return;
   $wrap.html('<p class="genericTxt">Memuat daftar bot...</p>');
 
-  // JSONP (lewat <script>) supaya tetap jalan di halaman yang memblokir XHR
-  // lintas-domain, misal profil Chatango (status 0 = diblokir browser).
-  $.ajax({
-    url: API_BASE + '/api/bots?v=' + Date.now(),
-    dataType: 'jsonp',
-    jsonp: 'callback',
-    timeout: 15000
-  })
+  fetchBotsApi()
     .done(function (list) {
       if (list && list.error) {
         $wrap.html('<p class="genericTxt">Server error: <span style="color:#c32551">' + esc(list.error) + '</span></p>');
@@ -129,10 +138,11 @@ function renderBotsList() {
       }
       $wrap.html($.map(list, function (o) { return bioBoxHTML(o); }).join(''));
     })
-    .fail(function (jqXHR, textStatus) {
+    .fail(function (why) {
       $wrap.html(
-        '<p class="genericTxt">Gagal memuat daftar bot (' + esc(textStatus) + ').<br>'
-        + '<span style="color:#c32551">Kemungkinan script ke ' + esc(API_BASE) + ' diblokir (CSP / ad blocker) atau API belum ter-deploy.</span></p>'
+        '<p class="genericTxt">Gagal memuat daftar bot.<br>'
+        + '<span style="color:#c32551">' + esc(why) + '</span><br>'
+        + 'Coba buka <a href="' + esc(API_BASE) + '/api/bots" target="_blank" rel="noopener">' + esc(API_BASE) + '/api/bots</a> langsung untuk melihat penyebabnya.</p>'
       );
     });
 }
